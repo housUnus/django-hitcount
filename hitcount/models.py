@@ -65,18 +65,18 @@ class HitCountBase(models.Model):
         return '%s' % self.content_object
 
     def increase(self):
-        #self.hits = self.hits or 0 + 1
-        #self.save()
-        with connection.cursor() as cursor:
-            cursor.execute("UPDATE hitcount_hit_count SET hits = COALESCE(hits, 0) + 1 WHERE id = %s", [self.id])
+        self.hits = self.hits or 0 + 1
         self.save()
+        #with connection.cursor() as cursor:
+        #    cursor.execute("UPDATE hitcount_hit_count SET hits = COALESCE(hits, 0) + 1 WHERE id = %s", [self.id])
+        #self.save()
         
     def decrease(self):
-        #self.hits = F('hits') - 1
-        #self.save()
-        with connection.cursor() as cursor:
-            cursor.execute("UPDATE hitcount_hit_count SET hits = CASE WHEN hits > 0 THEN hits - 1 ELSE 0 END WHERE id = %s", [self.id])
+        self.hits = self.hits or 0 - 1
         self.save()
+        #with connection.cursor() as cursor:
+        #    cursor.execute("UPDATE hitcount_hit_count SET hits = CASE WHEN hits > 0 THEN hits - 1 ELSE 0 END WHERE id = %s", [self.id])
+        #self.save()
         
     def hits_in_last(self, **kwargs):
         """
